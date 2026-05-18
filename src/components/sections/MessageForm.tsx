@@ -26,6 +26,7 @@ export default function MessageForm({ onSubmit, formRef }: MessageFormProps) {
     country: '',
     emoji: '💛',
     photo: undefined as string | undefined,
+    songUrl: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -66,12 +67,23 @@ export default function MessageForm({ onSubmit, formRef }: MessageFormProps) {
     }
     setErrors({})
     onSubmit(form)
+
+    // Enviar a Formspree (Reemplazar 'TU_ID_AQUI' con el ID real de Formspree)
+    fetch('https://formspree.io/f/mredbgnq', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(form)
+    }).catch(error => console.error('Error enviando a Formspree:', error))
+
     setSubmitted(true)
 
     // Reset after celebration
     setTimeout(() => {
       setSubmitted(false)
-      setForm({ name: '', relation: '', message: '', city: '', country: '', emoji: '💛', photo: undefined })
+      setForm({ name: '', relation: '', message: '', city: '', country: '', emoji: '💛', photo: undefined, songUrl: '' })
       setPhotoPreview(null)
     }, 3500)
   }
@@ -257,6 +269,17 @@ export default function MessageForm({ onSubmit, formRef }: MessageFormProps) {
                   onChange={handlePhoto}
                 />
                 {errors.photo && <p className="text-red-400/70 text-xs mt-1">{errors.photo}</p>}
+              </div>
+
+              {/* Song URL */}
+              <div>
+                <label className="block text-white/40 text-xs tracking-wider mb-2">Canción de Spotify o YouTube (Opcional)</label>
+                <input
+                  className={inputClass}
+                  placeholder="https://open.spotify.com/track/... o https://youtube.com/watch?v=..."
+                  value={form.songUrl}
+                  onChange={(e) => setForm((p) => ({ ...p, songUrl: e.target.value }))}
+                />
               </div>
 
               {/* Submit */}

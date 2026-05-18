@@ -7,6 +7,7 @@ export interface Message {
   country: string
   emoji: string
   photo?: string // base64 encoded
+  songUrl?: string // Spotify or YouTube link
   timestamp: number
   date: string
   time: string

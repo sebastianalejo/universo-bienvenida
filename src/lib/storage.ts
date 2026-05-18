@@ -1,41 +1,31 @@
 import { Message } from '@/types'
 
-// Ya no usamos STORAGE_KEY porque guardamos en la nube
+const STORAGE_KEY = 'universo_bienvenida_messages_v2'
 
-export async function getMessages(): Promise<Message[]> {
+export function getMessages(): Message[] {
+  if (typeof window === 'undefined') return getSeedMessages()
   try {
-    const res = await fetch('/api/messages')
-    if (!res.ok) throw new Error('Error al obtener mensajes')
-    const messages = await res.json()
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return getSeedMessages()
+    const messages = JSON.parse(raw) as Message[]
     
-    // Si no hay mensajes en la nube, mostramos los mensajes semilla
-    if (!messages || messages.length === 0) {
-      return getSeedMessages()
-    }
+    if (messages.length === 0) return getSeedMessages()
     
-    return messages as Message[]
-  } catch (error) {
-    console.error('Error in getMessages:', error)
-    // En caso de error, devolvemos los mensajes semilla para que no quede vacío
+    return messages
+  } catch {
     return getSeedMessages()
   }
 }
 
-export async function saveMessage(message: Message): Promise<boolean> {
-  try {
-    const res = await fetch('/api/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    })
-    
-    return res.ok
-  } catch (error) {
-    console.error('Error in saveMessage:', error)
-    return false
-  }
+export function saveMessage(message: Message): void {
+  if (typeof window === 'undefined') return
+  const messages = getMessages()
+  
+  // Evitar duplicar el mensaje semilla si ya está en localstorage
+  const filteredMessages = messages.filter(m => m.id !== message.id)
+  filteredMessages.unshift(message)
+  
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredMessages))
 }
 
 export function generateId(): string {
@@ -56,7 +46,6 @@ export function formatDate(): { date: string; time: string } {
   return { date, time }
 }
 
-// Mensajes semilla para que nunca esté vacío el mural
 function getSeedMessages(): Message[] {
   return [
     {
@@ -67,6 +56,7 @@ function getSeedMessages(): Message[] {
       city: 'Lima',
       country: 'Perú',
       emoji: '❤️',
+      songUrl: 'https://www.youtube.com/watch?v=fPczdTA1xU0&list=RDfPczdTA1xU0&start_radio=1',
       timestamp: Date.now(),
       date: '18 de mayo de 2026',
       time: '13:56',

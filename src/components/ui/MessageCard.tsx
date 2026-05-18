@@ -3,6 +3,28 @@
 import { motion } from 'framer-motion'
 import { Message } from '@/types'
 
+function getEmbedUrl(url: string) {
+  if (!url) return null
+  
+  // Spotify
+  if (url.includes('spotify.com')) {
+    const match = url.match(/track\/([a-zA-Z0-9]+)/)
+    if (match) {
+      return `https://open.spotify.com/embed/track/${match[1]}`
+    }
+  }
+  
+  // YouTube
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    const match = url.match(/(?:v=|\/embed\/|youtu\.be\/)([^&\n?#]+)/)
+    if (match) {
+      return `https://www.youtube.com/embed/${match[1]}`
+    }
+  }
+  
+  return null
+}
+
 interface MessageCardProps {
   message: Message
   index: number
@@ -63,7 +85,28 @@ export default function MessageCard({ message, index }: MessageCardProps) {
       >
         "{message.message}"
       </blockquote>
-
+ 
+      {/* Song Player */}
+      {message.songUrl && (
+        <div className="mt-2">
+          {getEmbedUrl(message.songUrl) ? (
+            <iframe
+              src={getEmbedUrl(message.songUrl)!}
+              width="100%"
+              height={message.songUrl.includes('spotify') ? "80" : "150"}
+              frameBorder="0"
+              allow="encrypted-media; autoplay"
+              className="rounded-lg"
+              style={{ border: 'none' }}
+            ></iframe>
+          ) : (
+            <a href={message.songUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-[#c9a96e] hover:underline flex items-center gap-1">
+              <span>🎵</span> Ver canción externa
+            </a>
+          )}
+        </div>
+      )}
+ 
       {/* Footer */}
       <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <p className="text-white/20 text-xs">{message.date}</p>
