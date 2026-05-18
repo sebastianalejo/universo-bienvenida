@@ -3,29 +3,11 @@ import { Message } from '@/types'
 const STORAGE_KEY = 'universo_bienvenida_messages_v2'
 
 export function getMessages(): Message[] {
-  if (typeof window === 'undefined') return getSeedMessages()
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return getSeedMessages()
-    const messages = JSON.parse(raw) as Message[]
-    
-    if (messages.length === 0) return getSeedMessages()
-    
-    return messages
-  } catch {
-    return getSeedMessages()
-  }
+  return getSeedMessages()
 }
 
 export function saveMessage(message: Message): void {
-  if (typeof window === 'undefined') return
-  const messages = getMessages()
-  
-  // Evitar duplicar el mensaje semilla si ya está en localstorage
-  const filteredMessages = messages.filter(m => m.id !== message.id)
-  filteredMessages.unshift(message)
-  
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredMessages))
+  // No guardamos nada localmente por el momento
 }
 
 export function generateId(): string {
