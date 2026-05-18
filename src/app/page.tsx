@@ -12,7 +12,7 @@ import { useMessages } from '@/hooks/useMessages'
 const Starfield = dynamic(() => import('@/components/ui/Starfield'), { ssr: false })
 
 export default function Home() {
-  const { messages, addMessage, count } = useMessages()
+  const { messages, addMessage, count, isLoaded } = useMessages()
   const formRef = useRef<HTMLDivElement>(null)
 
   const scrollToForm = () => {
@@ -33,7 +33,7 @@ export default function Home() {
 
         <div className="divider-gold max-w-4xl mx-auto my-4" />
 
-        <MuralSection messages={messages} />
+        <MuralSection messages={messages} isLoaded={isLoaded} />
 
         <Footer />
       </div>

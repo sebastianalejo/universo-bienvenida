@@ -7,11 +7,12 @@ import MessageCard from '@/components/ui/MessageCard'
 
 interface MuralSectionProps {
   messages: Message[]
+  isLoaded?: boolean
 }
 
 const FILTERS = ['Todos', 'Mamá', 'Papá', 'Abuelo/a', 'Tío/a', 'Amigo/a', 'Otro']
 
-export default function MuralSection({ messages }: MuralSectionProps) {
+export default function MuralSection({ messages, isLoaded = true }: MuralSectionProps) {
   const [filter, setFilter] = useState('Todos')
 
   const filtered = filter === 'Todos' ? messages : messages.filter((m) => m.relation === filter)
@@ -79,7 +80,18 @@ export default function MuralSection({ messages }: MuralSectionProps) {
           </motion.div>
         </AnimatePresence>
 
-        {filtered.length === 0 && (
+        {!isLoaded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-24 text-white/50"
+          >
+            <div className="inline-block w-8 h-8 border-2 border-gold/50 border-t-gold rounded-full animate-spin mb-4"></div>
+            <p className="font-light tracking-wider">Conectando con el universo...</p>
+          </motion.div>
+        )}
+
+        {isLoaded && filtered.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
