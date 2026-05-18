@@ -1,23 +1,41 @@
 import { Message } from '@/types'
 
-const STORAGE_KEY = 'universo_bienvenida_messages_v2'
+// Ya no usamos STORAGE_KEY porque guardamos en la nube
 
-export function getMessages(): Message[] {
-  if (typeof window === 'undefined') return []
+export async function getMessages(): Promise<Message[]> {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return getSeedMessages()
-    return JSON.parse(raw) as Message[]
-  } catch {
+    const res = await fetch('/api/messages')
+    if (!res.ok) throw new Error('Error al obtener mensajes')
+    const messages = await res.json()
+    
+    // Si no hay mensajes en la nube, mostramos los mensajes semilla
+    if (!messages || messages.length === 0) {
+      return getSeedMessages()
+    }
+    
+    return messages as Message[]
+  } catch (error) {
+    console.error('Error in getMessages:', error)
+    // En caso de error, devolvemos los mensajes semilla para que no quede vacío
     return getSeedMessages()
   }
 }
 
-export function saveMessage(message: Message): void {
-  if (typeof window === 'undefined') return
-  const messages = getMessages()
-  messages.unshift(message)
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(messages))
+export async function saveMessage(message: Message): Promise<boolean> {
+  try {
+    const res = await fetch('/api/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    })
+    
+    return res.ok
+  } catch (error) {
+    console.error('Error in saveMessage:', error)
+    return false
+  }
 }
 
 export function generateId(): string {
@@ -38,7 +56,7 @@ export function formatDate(): { date: string; time: string } {
   return { date, time }
 }
 
-// Seed messages so the wall is never empty on first visit
+// Mensajes semilla para que nunca esté vacío el mural
 function getSeedMessages(): Message[] {
   return [
     {

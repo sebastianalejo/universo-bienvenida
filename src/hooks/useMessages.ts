@@ -9,14 +9,18 @@ export function useMessages() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    setMessages(getMessages())
-    setIsLoaded(true)
+    async function load() {
+      const msgs = await getMessages()
+      setMessages(msgs)
+      setIsLoaded(true)
+    }
+    load()
   }, [])
 
   const addMessage = useCallback(
-    (
+    async (
       data: Omit<Message, 'id' | 'timestamp' | 'date' | 'time'>
-    ): Message => {
+    ): Promise<Message> => {
       const { date, time } = formatDate()
       const message: Message = {
         ...data,
@@ -25,7 +29,11 @@ export function useMessages() {
         date,
         time,
       }
-      saveMessage(message)
+      
+      // Guardamos en la nube
+      await saveMessage(message)
+      
+      // Actualizamos el estado local
       setMessages((prev) => [message, ...prev])
       return message
     },
