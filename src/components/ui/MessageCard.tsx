@@ -43,11 +43,11 @@ export default function MessageCard({ message, index }: MessageCardProps) {
     >
       {/* Photo */}
       {message.photo && (
-        <div className="w-full h-40 rounded-xl overflow-hidden">
+        <div className="w-full rounded-xl overflow-hidden flex justify-center">
           <img
             src={message.photo}
             alt={`Foto de ${message.name}`}
-            className="w-full h-full object-cover"
+            className="max-w-full h-auto block"
             style={{ filter: 'saturate(0.85) brightness(0.95)' }}
           />
         </div>

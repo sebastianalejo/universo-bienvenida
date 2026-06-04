@@ -6,7 +6,7 @@ import { Message } from '@/types'
 import { HeroMessagesDecorations } from '@/components/ui/HeroMessages'
 
 // ⭐ CHANGE THIS DATE to your baby's due date
-const DUE_DATE = '2026-07-15T00:00:00'
+const DUE_DATE = '2026-07-06T00:00:00'
 
 interface HeroProps {
   messageCount: number

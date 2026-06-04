@@ -45,9 +45,23 @@
     "city": "Cusco",
     "country": "Perú",
     "emoji": "🌷",
+    "photo": "/bracelet.jpeg",
     "songUrl": "https://www.youtube.com/watch?v=GlL7neg5A3A&list=RDGlL7neg5A3A&start_radio=1&t=50s",
     "timestamp": 1780218240000,
     "date": "30 de mayo de 2026",
     "time": "23:04"
+  },
+  {
+    "id": "seed_5",
+    "name": "Sebastián",
+    "relation": "Papá",
+    "message": "Hola mi bebé, espero que estes bien, te comento que durante estos días no han sido fáciles, no he dejado de pensar en ti (la verdad que eres el único motivo por el cual puedo seguir) siento que cuando llegues a mi vida va a cambiar por completo, lo presiento. I miss tus patadas o cabezasos ajajaja aunque no eras tan brava conmigo, sé que esa conexión existe, sé que aun no llegas al mundo pero sabes quien soy, sabes como soy. Hoy me pedí un café y mira te veo en todos lados.",
+    "city": "Lima",
+    "country": "Perú",
+    "emoji": "🌙",
+    "photo": "/cafe.jpeg",
+    "timestamp": 1780552680000,
+    "date": "4 de junio de 2026",
+    "time": "00:58"
   }
 ]

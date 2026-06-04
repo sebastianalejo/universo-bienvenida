@@ -4,6 +4,11 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Universo de Bienvenida — Para ti, antes de llegar',
   description: 'Un mural de amor construido para ti, antes de que nacieras. Cada mensaje aquí es una pequeña luz esperándote.',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: 'Universo de Bienvenida',
     description: 'Un mural de amor construido para ti, antes de que nacieras.',
