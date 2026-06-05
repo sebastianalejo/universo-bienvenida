@@ -63,5 +63,18 @@
     "timestamp": 1780552680000,
     "date": "4 de junio de 2026",
     "time": "00:58"
+  },
+  {
+    "id": "seed_6",
+    "name": "Alejandra",
+    "relation": "Mamá",
+    "message": "Bombona.",
+    "city": "Lima",
+    "country": "Perú",
+    "emoji": "🦋",
+    "photo": "/foto_mama1.jpg",
+    "timestamp": 1780594200000,
+    "date": "4 de junio de 2026",
+    "time": "12:30"
   }
 ]
