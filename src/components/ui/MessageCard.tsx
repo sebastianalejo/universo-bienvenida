@@ -63,7 +63,7 @@ export default function MessageCard({ message, index }: MessageCardProps) {
             {message.emoji}
           </div>
           <div>
-            <p className="text-white/80 text-sm font-medium leading-tight">{message.name}</p>
+            <p className="text-white/80 text-base font-medium leading-tight">{message.name}</p>
             <p className="text-white/30 text-xs mt-0.5">{message.relation}</p>
           </div>
         </div>
@@ -80,8 +80,8 @@ export default function MessageCard({ message, index }: MessageCardProps) {
 
       {/* Message */}
       <blockquote
-        className="text-white/60 text-sm leading-relaxed font-light italic"
-        style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem' }}
+        className="text-white/60 text-base leading-relaxed font-light italic"
+        style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.125rem' }}
       >
         "{message.message}"
       </blockquote>
